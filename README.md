@@ -4,7 +4,7 @@ we are tested with Python3.12
 
 # Download or clone this project 
 ```
-git clone https://github.com/aakmit/pycentral_cli.git
+git clone https://github.com/aakmit/aruba_central_cli.git
 ```
 
 # install virtualenv 
