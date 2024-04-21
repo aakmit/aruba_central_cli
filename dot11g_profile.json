@@ -1,0 +1,32 @@
+{
+  "allowed_channels": "1,6,11",
+  "beacon_interval": 100,
+  "ch_bw_range": [
+    "20MHz",
+    "20MHz"
+  ],
+  "channel_quality_aware": false,
+  "channel_quality_threshold": 70,
+  "channel_quality_wait_time": 120,
+  "csa_count": 0,
+  "disable_arm_wids_functions": "off",
+  "dot11h": false,
+  "dpp_configurator_connectivity": false,
+  "free_channel_index": 25,
+  "high_noise_backoff_time": 720,
+  "honor_intolerance_40mhz": true,
+  "interference_immunity": 2,
+  "intolerance_40mhz": false,
+  "iot_coexistence": true,
+  "legacy_mode": false,
+  "max_tx_power": 40,
+  "max_tx_power_ai": "false",
+  "min_tx_power": 6,
+  "min_tx_power_ai": "false",
+  "name": "default",
+  "rts_mode": "default",
+  "scanning_disable": true,
+  "smart_antenna": false,
+  "spectrum_monitor": false,
+  "zone": "default"
+}

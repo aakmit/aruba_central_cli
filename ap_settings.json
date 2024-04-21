@@ -1,0 +1,11 @@
+{   "achannel": "0",
+    "atxpower": "-127",
+         "dot11a_radio_disable": false,
+         "dot11g_radio_disable": false,
+         "gchannel": "0",
+         "gtxpower": "-127",
+         "hostname": "AP615-POC",
+         "ip_address": "0.0.0.0",
+         "usb_port_disable": false,
+         "zonename": ""
+}

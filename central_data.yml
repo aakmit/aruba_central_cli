@@ -1,0 +1,47 @@
+central_info:
+  username: "vorawut.k@arubaseath.com"
+  password: "xxx"
+  client_id: "8E4mfUwTgiFFLlszPyek6Zpp8X1ZhkEJ"
+  client_secret: "QHJtMRYZ5mHdbC2wlWOb9WnX5GgDBWqo"
+  customer_id: "2fc10804142811ed8acd9a1370d6a925"
+  base_url: "https://internal-apigw.central.arubanetworks.com"
+partner:
+  username: "vorawut.k@arubaseath.com"
+  password: "xxx"
+  client_id: "WOjOHdRNILNTUhj8aNXYINUEEUm7DhlJ"
+  client_secret: "TZ6oWQQFQqSebB0ISuZK2VHmOjDCzFw9"
+  customer_id: "588d7f6a6cd84ebc85f1036ee9b99ebe"
+  base_url: "https://internal-apigw.central.arubanetworks.com"
+vorawut_sg:
+  username: "vorawut.k@arubaseath.com"
+  password: "xxx"
+  client_id: "FF525y5YxtcnKOEdZMDbwlduUADEmVsu"
+  client_secret: "8FtGostlBmXgr2TVrFlWgFcIilO9MaAJ"
+  customer_id: "2fc10804142811ed8acd9a1370d6a925"
+  base_url: "https://internal-apigw.central.arubanetworks.com"
+singapore_seath:
+  username: "vorawut.k@arubaseath.com"
+  password: "xxx"
+  client_id: "yvuigmJC0YL4u0HbrxT1j78jn4Iu6JsX"
+  client_secret: "KMidigBPjqLI67HZxNSr1RvOwCikx2sA"
+  customer_id: "24e2d1c9cf4748f0bbbc845a2d636726"
+  base_url: "https://apigw-apaceast.central.arubanetworks.com"
+telkom-indo:
+  username: "vorawut.k@arubaseath.com"
+  password: "xxxx"
+  client_id: "mHLKloqHvqVGuYR6Kttf5g2ULBiqDp7Y"
+  client_secret: "ovAUaCfvflradRFjrdGzRb2xDYenOXRf"
+  customer_id: "c024c4deee6711edbb4936bcf7b7dfc5"
+  base_url: "https://apigw-apaceast.central.arubanetworks.com"
+telkom-indo-south:
+  username: "vorawut.k@arubaseath.com"
+  password: "xxxx"
+  client_id: "RyHkcefziwJwTROPfP8kqXP8x6WPZFLc"
+  client_secret: "H1mcvdPGUcYLtJSskHJdvXjTy8Qz2BXh"
+  customer_id: "9a938176fd4b11ee9b837e988ce15f27"
+  base_url: "https://api-ap.central.arubanetworks.com"
+
+token_store:
+  type: "local"
+  path: "temp"
+ssl_verify: true

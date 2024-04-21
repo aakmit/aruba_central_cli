@@ -1,0 +1,28 @@
+{
+    "wlan": {
+      "essid": "Telkom-WiFi3",
+      "type": "employee",
+      "hide_ssid": false,
+      "vlan": "1",
+      "wpa_passphrase": "admin@1234",
+      "wpa_passphrase_changed": true,
+      "is_locked": false,
+      "captive_profile_name": "",
+      "bandwidth_limit_peruser_up": "5000",
+      "bandwidth_limit_peruser_down": "5000",
+      "access_rules": [
+        {
+          "action": "allow",
+          "eport": "any",
+          "ipaddr": "any",
+          "match": "match",
+          "netmask": "any",
+          "protocol": "any",
+          "service_name": "",
+          "service_type": "network",
+          "sport": "any"
+        }
+      ]
+    }
+  }
+  
