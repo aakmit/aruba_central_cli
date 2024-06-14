@@ -4,7 +4,7 @@
          "dot11g_radio_disable": false,
          "gchannel": "0",
          "gtxpower": "-127",
-         "hostname": "AP615-POC",
+         "hostname": "pocwifi/arb2",
          "ip_address": "0.0.0.0",
          "usb_port_disable": false,
          "zonename": ""

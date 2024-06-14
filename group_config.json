@@ -1,0 +1,18 @@
+{
+    "group": "VPNC-01",
+    "group_attributes": {
+      "template_info": {
+        "Wired": false,
+        "Wireless": false
+      },
+      "group_properties": {
+        "AllowedDevTypes": [
+          "Gateways"
+        ],
+        "Architecture": "AOS10",
+        "GwNetworkRole": "VPNConcentrator",
+        "MonitorOnly": [],
+        "NewCentral": false
+      }
+    }
+  }

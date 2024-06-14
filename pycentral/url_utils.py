@@ -251,6 +251,7 @@ class TenantUrl():
 
 class AOS10_URL():
     GATEWAY = {
-        "GET_CONFIG":"/caasapi/v1/showcommand/object/committed"
+        "GET_CONFIG":"/caasapi/v1/showcommand/object/committed",
+        "GET_CONFIG_EFFECTIVE":"/caasapi/v1/showcommand/object/effective"
     }
     

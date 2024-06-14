@@ -558,10 +558,12 @@ class ArubaCentralBase:
             params=params,
             data=data,
         )
+        
         prepped = s.prepare_request(req)
         settings = s.merge_environment_settings(
             prepped.url, {}, None, self.ssl_verify, None
         )
+
         try:
             resp = s.send(prepped, **settings)
             return resp

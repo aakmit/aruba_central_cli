@@ -1,74 +1,92 @@
-#!/usr/bin/python3
 
-from curses import raw
-from re import X
-from textwrap import indent
-from tokenize import group
-import requests
-import json,csv
-import base64
-import yaml
-import argparse
-from pycentral.msp_config import Tenant
-from pycentral.configuration_bak import *
-from pycentral.base import ArubaCentralBase
-""" Define pycentral from folder-name"""
-from pycentral.workflows.workflows_utils import *  
-from pycentral.device_inventory import Inventory
+#
+# Copyright (c) 2020 Aruba, a Hewlett Packard Enterprise company
 from pprint import pprint
+import json
+import typer
+import pwinput
+from rich import print
+from rich.console import Console
 
-class def_args():
+# Import Aruba Central Base
+""" Define pycentral from folder-name"""
+from pycentral.push_config import *
+from pycentral.base import ArubaCentralBase
+from pycentral.aos10_gw import *
+from pycentral.configuration import *
+from pycentral.monitoring import *
+from pycentral.audit_logs import *
+from pycentral.rapids import *
+from pycentral.workflows.workflows_utils import *  # Get central_information from file by calling this module 
+from pycentral.device_inventory import Inventory
 
-    ## define_arguments for CLI ###
-    def __init__(self):
-        pass    
-    
-    def define_arguments():
-        parser = argparse.ArgumentParser(description='############ API to get or push data to Aruba-central ############')
-        subparser = parser.add_subparsers(dest='command')
-        
-        get_tenant_info = subparser.add_parser('get_tenant_info',help=' :Use this command to get a tenant infomations')
-        get_tenant_info.add_argument('--customer_name', type=str, required=True,help='MSP customer-name can be found on Central yaml file')
+# Create an instance of ArubaCentralBase using API access token
+# or API Gateway credentials.
 
+#central_acct = input("Enter your Central Account name: ")
+central_data1= "central_data.yml"
+account_name = "vorawut_sg"
+central = get_conn_from_file(central_data1,account=account_name, logger=None)
+#central = get_conn_from_file(central_data1,account="central_acct, logger=None)
 
-        del_tenant = subparser.add_parser('del_tenant',help=':Use this command to delete a tenant on central')
-        del_tenant.add_argument('--customer_name', type=str, required=True,help='MSP customer-name can be found on Central yaml file')
-        del_tenant.add_argument('--tenant_id', type=str, required=True, help=' Tenant ID to be deleted')
+group = Groups()
+wlan = Wlan()
+ap_conf = ApConfiguration()
+ap_setup = ApSettings()
+devices = Devices()
+audit = Audit()
+rapids = Rogues()
+console = Console()
+gateway= AOS10()
 
-        create_tenant = subparser.add_parser('create_tenant',help=':Use this command to create a tenant on central')
-        create_tenant.add_argument('--cid', type=str, required=True,help='MSP customer-id can be found on Central')
-        create_tenant.add_argument('--zone', type=str, required=True,help='cluster zone')
-        create_tenant.add_argument('--customer_name', type=str, required=True, help= "a Tenant name")
+app = typer.Typer(help="show AP neighbor under global level or specific group ")
 
-        return parser
-    
-    def api_cmd(self,cmd):
-
-        api_data = Tenant()
-        if (cmd.command =="get_tenant_info"):
-            central_info= "central_data.yml"
-            central = get_conn_from_file(central_info,account=cmd.customer_name, logger=None)
-            resp=api_data.get_tenant_info(central)
-            x = len(resp["msg"]["customers"])
-            for i in range(x):
-                pprint (resp["msg"]["customers"][i]["customer_name"])
-                pprint (resp["msg"]["customers"][i]["customer_id"])
-                print("\n")
-
-        elif (cmd.command =="del_tenant"):
-            central_info= "central_data.yml"
-            central = get_conn_from_file(central_info,account=cmd.customer_name, logger=None)
-            #customer_id=cmd.tenant_id
-            print (cmd)
-            resp=api_data.delete_tenant(central,cmd.tenant_id)
-            pprint (resp)
+@app.command()
+def show_group(offset: int = typer.Option(default=0),limit: int = typer.Option(default=20)):
+  module_resp = group.get_groups(central,offset,limit)
+  pprint(module_resp)
 
 
-if __name__ == '__main__':
-    parser = def_args.define_arguments()
-    args = parser.parse_args()
-    api_data = def_args()
-    api_data.api_cmd(args)
+@app.command()
+def assign_license(license_type: str = typer.Argument(help="type of license ie: foundation_ap"),
+                   device_sn: str = typer.Argument(help=" ap serial in json format ap_sn.json ")):
+
+  with open(device_sn,'r') as config_file:
+    ap_sn = json.load(config_file)
+  
+  wlan_data = {}
+  wlan_data.update(ap_sn)
+  wlan_data['services']=[license_type]
+
+  apiPath = "/platform/licensing/v1/subscriptions/assign"  
+  apiMethod = "POST" 
+  apiData = wlan_data
+  base_resp = central.command(apiMethod=apiMethod,
+                              apiPath=apiPath,
+                              apiData=apiData
+                              )
+  pprint(base_resp)
+
+@app.command()
+def show_rapid(group: str = typer.Option(default=""),
+                         label: str = typer.Option(default="")):
+  resp = rapids.list_interfering_aps(central,group=group,label=label)
+  pprint(resp)
+
+@app.command()
+def show_interference_ap(group: str = typer.Option(default=""),
+                         label: str = typer.Option(default="")):
 
 
 
+  apiPath = "/rapids/v1/interfering_aps"
+  apiMethod = "GET" 
+  apiParams = {"group":group,"label":label}
+  base_resp = central.command(apiMethod=apiMethod,
+                              apiPath=apiPath,
+                              apiParams=apiParams
+                              )
+  pprint(base_resp)
+
+if __name__ == "__main__":
+    app()

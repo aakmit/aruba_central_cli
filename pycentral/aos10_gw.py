@@ -19,3 +19,14 @@ class AOS10(object):
         }
         resp = conn.command(apiMethod="GET", apiPath=path, apiParams=params)
         return resp
+    
+    def get_config_effective(self, conn,group_name,limit=0,offset=0):
+        path = urls.GATEWAY["GET_CONFIG"]        
+        
+        params = {
+            "limit": 0, 
+            "offset": 0, 
+            "group_name": group_name
+        }
+        resp = conn.command(apiMethod="GET", apiPath=path, apiParams=params)
+        return resp

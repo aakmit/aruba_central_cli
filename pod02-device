@@ -1,0 +1,29 @@
+{
+  "cli_cmds": [
+    "controller-ip vlan 252 ",
+    "!",
+    "vlan 4094 ",
+    "!",
+    "interface gigabitethernet 0/0/0 ",
+    "    switchport mode access ",
+    "    trusted ",
+    "    trusted vlan 4094 ",
+    "    switchport access vlan 4094 ",
+    "!",
+    "interface gigabitethernet 0/0/1 ",
+    "    trusted ",
+    "    switchport access vlan 4093 ",
+    "    trusted vlan 4093",
+    "!",
+    "interface gigabitethernet 0/0/2 ",
+    "    trusted ",
+    "    switchport access vlan 252 ",
+    "    trusted vlan 252",
+    "!",
+    "interface vlan 252 ",
+    "    ip address 10.220.252.55 255.255.255.0 ",
+    "!",
+    "hostname VPNC-Group5 ",
+    "!"
+  ]
+}

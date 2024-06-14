@@ -1,0 +1,21 @@
+{
+  "cli_cmds": [
+    "interface gigabitethernet 0/0/1 ",
+    "    trusted ",
+    "    trusted 4093 ",
+    "    switchport access vlan 4093 ",
+    "!",
+    "interface gigabitethernet 0/0/2 ",
+    "    trusted ",
+    "    trusted vlan 252 ",
+    "    switchport access vlan 252 ",
+    "!",
+    "interface vlan 252 ",
+    "    ip address 10.220.252.53 255.255.255.0 ",
+    "!",
+    "controller-ip vlan 252 ",
+    "!",
+    "hostname VPNC-Group3 ",
+    "!"
+  ]
+}

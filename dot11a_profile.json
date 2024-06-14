@@ -19,7 +19,7 @@
   "interference_immunity": 2,
   "intolerance_40mhz": false,
   "legacy_mode": false,
-  "max_tx_power": 35,
+  "max_tx_power": 30,
   "max_tx_power_ai": "false",
   "min_tx_power": 15,
   "min_tx_power_ai": "false",

@@ -25,8 +25,7 @@ from pycentral.device_inventory import Inventory
 
 #central_acct = input("Enter your Central Account name: ")
 central_data1= "central_data.yml"
-account_name = "vorawut_sg"
-#account_name = central_acct
+account_name = "telkom-indo-south"
 central = get_conn_from_file(central_data1,account=account_name, logger=None)
 #central = get_conn_from_file(central_data1,account="central_acct, logger=None)
 """
@@ -57,11 +56,8 @@ def show_neighbor_aps(group_name: str = typer.Option(default="",help="show neigh
   pprint(module_resp["msg"])
 
 @app.command()
-def show_interference_aps(group_name: str = typer.Option(default="",help="show neighbor AP under this group"),
-                          ap_label:str = typer.Option(default="",help="show neighbor AP under this label")
-                          ):
-  print (ap_label)
-  module_resp = rapids.list_interfering_aps(central,group_name,label=ap_label)
+def show_interference_aps(group_name: str = typer.Option(default="",help="show neighbor AP under this group")):
+  module_resp = rapids.list_interfering_aps(central,group_name)
   pprint(module_resp["msg"])
 
 
@@ -84,28 +80,6 @@ def show_group(offset: int = typer.Option(default=0),limit: int = typer.Option(d
 def clone_group(new_group, existing_group):
   module_resp = group.clone_create_group(central,new_group, existing_group)
   pprint(module_resp)
-
-
-@app.command()
-def create_group(config: str = typer.Argument(help="config file")):
-
-  with open(config,'r') as config_file:
-    group_config = json.load(config_file)
-
-  #wlan_data = {}
-  #wlan_data.update(ap_sn)
-  #wlan_data['services']=[license_type]
-  wlan_data = group_config
-  apiPath = "/configuration/v3/groups"
-  apiMethod = "POST" 
-  apiData = wlan_data
-  base_resp = central.command(apiMethod=apiMethod,
-                              apiPath=apiPath,
-                              apiData=apiData
-                              )
-  pprint(base_resp)
-
-
 
 @app.command()
 def delete_group(group_name):
@@ -184,7 +158,7 @@ def move_device(group_name: str = typer.Argument(help="Group-name for devices to
   with open(devices_file,'r') as config_file:
     sn_data = json.load(config_file)
 
-  device_sn = sn_data["serials"]
+  device_sn = sn_data["serial"]
   module_resp = devices.move_devices(central,group_name,device_sn)
   pprint(module_resp)
 
@@ -194,30 +168,21 @@ def delete_device(config_file: str = typer.Argument(help="AP serial numner file 
   with open(config_file,'r') as config_file:
     ap_sn = json.load(config_file)
 
-  for i in range (len(ap_sn["serials"])) :
+  for i in range (len(ap_sn["serial"])) :
     #print (ap_sn["serial"][i])
-    apiPath = "/monitoring/v1/aps/"+ap_sn["serials"][i]
+    apiPath = "/monitoring/v1/aps/"+ap_sn["serial"][i]
     apiMethod = "DELETE"
     base_resp = central.command(apiMethod=apiMethod,
                                apiPath=apiPath)
     pprint(base_resp)
 
 @app.command()
-def show_list_aps():
+def list_aps():
   apiPath = "/monitoring/v2/aps"
   apiMethod = "GET"
   base_resp = central.command(apiMethod=apiMethod,
                               apiPath=apiPath)
   pprint(base_resp["msg"])
-
-@app.command()
-def show_ap_detail(ap_sn: str = typer.Argument(help="AP serial number ")):
-  apiPath = "/monitoring/v1/aps/"+ ap_sn
-  apiMethod = "GET"
-  base_resp = central.command(apiMethod=apiMethod,
-                              apiPath=apiPath)
-  pprint(base_resp["msg"])
-
 
 
 @app.command()
@@ -248,48 +213,6 @@ def update_11a_radio(group_name,dot11a_profile,config_file: str = typer.Argument
                               )
   pprint(base_resp)
 
-@app.command()
-def assign_license(license_type: str = typer.Argument(help="type of license ie: foundation_ap"),
-                   device_sn: str = typer.Argument(help=" ap serial in json format ap_sn.json ")):
-
-  with open(device_sn,'r') as config_file:
-    ap_sn = json.load(config_file)
-  
-  wlan_data = {}
-  wlan_data.update(ap_sn)
-  wlan_data['services']=[license_type]
-
-  apiPath = "/platform/licensing/v1/subscriptions/assign"  
-  apiMethod = "POST" 
-  apiData = wlan_data
-  base_resp = central.command(apiMethod=apiMethod,
-                              apiPath=apiPath,
-                              apiData=apiData
-                              )
-  pprint(base_resp)
-
-@app.command()
-def unassign_license(license_type: str = typer.Argument(help="type of license ie: foundation_ap"),
-                   device_sn: str = typer.Argument(help=" ap serial in json format ap_sn.json ")):
-
-  with open(device_sn,'r') as config_file:
-    ap_sn = json.load(config_file)
-
-  wlan_data = {}
-  wlan_data.update(ap_sn)
-  wlan_data['services']=[license_type]
-
-  apiPath = "/platform/licensing/v1/subscriptions/unassign"
-  apiMethod = "POST" 
-  apiData = wlan_data
-  base_resp = central.command(apiMethod=apiMethod,
-                              apiPath=apiPath,
-                              apiData=apiData
-                              )
-  pprint(base_resp)
-
-
-
 
 @app.command(help="show gateway commited configuration and save to file gw_config.json")
 def show_gw_committed(group_name):
@@ -309,6 +232,8 @@ def show_gw_effective(group_name):
 
   pprint(resp)
     
+
+
 @app.command(help="push configuration from file to AOS10_GW")
 def push_config(
 
@@ -318,6 +243,60 @@ def push_config(
     config_file: str = typer.Argument(..., help="json config file to push")
     
 ):
+
   resp = caas_push_configuration(group_name,config_file,central.getToken(),central_data1,account_name)
+ # print (resp)
+  #print (config_file)
+  #print (group_name)
 
 
+"""
+@app.command()
+def push_config(
+    config_file: str = typer.Argument(..., help="json config file to push"),
+    group_name: str = typer.Argument(
+        ...,
+        help="group/device name of group/device. Ex: Seattle or Seattle/c2:46:65:dc:f8:16")
+    
+):
+    
+    central_info = get_file_contents (central_data1)
+    token = central.getToken()
+    with open(config_file,'r') as payload:
+      gw_data = json.load(payload)
+
+    apiPath = "/caasapi/v1/exec/cmd"
+    apiMethod = "POST"    
+    apiParams = {
+            "cid": central_info[account_name]["customer_id"],
+            "group_name": group_name,
+        }
+    apiHeaders = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token["access_token"]}",  # type: ignore
+        }
+    apiData=gw_data
+
+    print(f"[bold]You are about to push changes to the account[/bold] [#ff8300]{account_name}[/#ff8300]!")
+    confirm = console.input(f"Type`[bold red]confirm[/bold red]` to [red]push[/red] changes in file \
+                '[cyan]{config_file}[/cyan]' to [yellow]{group_name}[/yellow]: "
+        )
+    if confirm == "confirm":
+        print("\nConfirmation recieved!")
+        print(f"Pushing configuration in [blue]{config_file}[/blue] to [green]{group_name}[/green]...\n")
+
+        resp = central.command(apiMethod=apiMethod,
+                           headers=apiHeaders,     
+                           apiPath=apiPath, 
+                           apiParams=apiParams,
+                           apiData=apiData)
+        
+        if resp["code"] != 200:
+          pprint(f"[red]Error Status Code: {resp['code']} : {resp['msg']}[/red]")
+        else:
+          print (resp["msg"])
+    else:
+      print("Aborting changes...")
+      response = ""
+      exit(1)
+"""

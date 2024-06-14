@@ -136,12 +136,14 @@ class Rogues():
         """
         path = urls.ROGUES["GET_INTERFERING_AP"]
         params = {
+            "group":group,
             "limit": limit,
             "offset": offset
         }
+
         if group:
             params["group"] = group
-        if label:
+        if label:            
             params["label"] = label
         if site:
             params["site"] = site
@@ -155,6 +157,7 @@ class Rogues():
             params["from_timestamp"] = from_timestamp
         if to_timestamp:
             params["to_timestamp"] = to_timestamp
+        print (params)
         resp = conn.command(apiMethod="GET", apiPath=path, apiParams=params)
         return resp
 

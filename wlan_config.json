@@ -1,15 +1,16 @@
 {
     "wlan": {
-      "essid": "Telkom-WiFi3",
+      "essid": "WMS_LAB_aruba",
       "type": "employee",
       "hide_ssid": false,
-      "vlan": "1",
-      "wpa_passphrase": "admin@1234",
+      "vlan": "1920",
+      "wpa_passphrase": "Aruba12345678",
       "wpa_passphrase_changed": true,
       "is_locked": false,
       "captive_profile_name": "",
-      "bandwidth_limit_peruser_up": "5000",
-      "bandwidth_limit_peruser_down": "5000",
+      "bandwidth_limit_peruser_up": "2000",
+      "bandwidth_limit_peruser_down": "2000",
+  
       "access_rules": [
         {
           "action": "allow",

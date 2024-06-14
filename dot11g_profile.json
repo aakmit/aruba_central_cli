@@ -19,7 +19,7 @@
   "intolerance_40mhz": false,
   "iot_coexistence": true,
   "legacy_mode": false,
-  "max_tx_power": 40,
+  "max_tx_power": 30,
   "max_tx_power_ai": "false",
   "min_tx_power": 6,
   "min_tx_power_ai": "false",
